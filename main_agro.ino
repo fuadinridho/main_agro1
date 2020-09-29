@@ -56,7 +56,7 @@ SHT1x sht1x(dataPin, clockPin);
 
 ///////////////////////////////////////////////////////////////////////////////////////
 static void GPSloop();
-String arah;
+float arah;
 float phTanah;
 float curahHujan;
 double longitude,latitude;
@@ -124,43 +124,49 @@ void loop()
 {
    
 //Sample++;
-//windvelocity();
+arah = arahAngin();
+
 //Serial.println(" finished.");
 //Serial.print("Counter: ");
 //Serial.print(counter);
 //Serial.print("; RPM: ");
 //RPMcalc();
 //Serial.print(RPM);
-//Serial.print("; Wind speed: ");
-//WindSpeed();
-//Serial.print(speedwind);
 //Serial.print(" [m/s]");
-//arah = arahAngin();
-//Serial.print(arah);
-//phTanah = bacaTanah();
-//Serial.print(phTanah);
+phTanah = bacaTanah();
+
 //curahHujan = bacaHujan();
 //Serial.println(curahHujan);
 //Serial.print(phTanah);
 //GPSloop();
 //delay(5000);
-//windSpeed = kecAngin();
-//Serial.println(windSpeed);
-//pressure = read_baro();
-//Serial.println(pressure);
-//ecTanah = ecSoil();
-//tempEcSoil();
+windSpeed = kecAngin();
+
+pressure = read_baro();
+ecTanah = ecSoil();
+tempEcSoil();
 //Serial.print(dat[0]);
-//Serial.print('\t');
-//Serial.print(dat[1]);
-//Serial.print('\t');
-//Serial.print(dat[2]);
 //Serial.print('\t');
 //Serial.print(dat[3]);
 //Serial.print('\t');
-//Serial.println(ecTanah);
 suhu = read_temp();
 kelembaban = read_hum();
+
+
+Serial.print(arah);
+Serial.print('\t');
+Serial.print(phTanah);
+Serial.print('\t');
+Serial.print(windSpeed);
+Serial.print('\t');
+Serial.print(pressure);
+Serial.print('\t');
+Serial.print(ecTanah);
+Serial.print('\t');
+Serial.print(dat[1]);
+Serial.print('\t');
+Serial.print(dat[2]);
+Serial.print('\t');
 Serial.print(suhu);
 Serial.print('\t');
 Serial.println(kelembaban);

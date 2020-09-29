@@ -1,16 +1,16 @@
 float cbfr;
 float humbfr;
 
-String arahAngin(){
-  String arah;
-  if(digitalRead(utara)==LOW){arah = "UTARA";}
-  else if(digitalRead(tl)==LOW){arah = "TIMUR LAUT";}
-  else if(digitalRead(timur)==LOW){arah = "TIMUR";}
-  else if(digitalRead(tenggara)==LOW){arah = "TENGGARA";}
-  else if(digitalRead(selatan)==LOW){arah = "SELATAN";}
-  else if(digitalRead(bd)==LOW){arah = "BARAT DAYA";}
-  else if(digitalRead(barat)==LOW){arah = "BARAT";}
-  else if(digitalRead(bl)==LOW){arah = "BARAT LAUT";}
+float arahAngin(){
+  float arah;
+  if(digitalRead(utara)==LOW){arah = 0;}
+  else if(digitalRead(tl)==LOW){arah = 45;}
+  else if(digitalRead(timur)==LOW){arah = 90;}
+  else if(digitalRead(tenggara)==LOW){arah = 135;}
+  else if(digitalRead(selatan)==LOW){arah = 180;}
+  else if(digitalRead(bd)==LOW){arah = 225;}
+  else if(digitalRead(barat)==LOW){arah = 270;}
+  else if(digitalRead(bl)==LOW){arah = 315;}
   return arah;
 }
 // Measure wind speed
@@ -104,20 +104,18 @@ void tempEcSoil(){
   float ec = vcs.getEC();
   float temp = vcs.getTemp();
   float vwc = vcs.getVWC();
-//  dat[4]={0,0,0,0};
+  float dat[4]={0,0,0,0};
   vcs.getData(dat);
-  delay(1000);
-  
-  }
+  delay(1000);  
+}
 
- float ecSoil(){
+float ecSoil(){
   float ecTanah;
   ecTanah = vcs.getEC();
   return ecTanah;
- }
+}
 
- float read_temp()
-{
+float read_temp(){
   float temp_c;
   temp_c = sht1x.readTemperatureC();
   if(temp_c<0 || temp_c>80){temp_c = cbfr;}
@@ -125,8 +123,7 @@ void tempEcSoil(){
   return temp_c;
 }
 
-float read_hum()
-{
+float read_hum(){
   float humidity;
   humidity = sht1x.readHumidity();
   if(humidity<0 || humidity>100){humidity = humbfr;}
