@@ -9,6 +9,9 @@
 #include "Config.h"
 #include "i2cArduino.h"
 #include <SHT1x.h>
+#include <ArduinoJson.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 ///////////////////////////////////////////////////////
 //#define RainPin 16    // The Rain input is connected to digital pin 2 on the arduino
 // pin defenition wind direction
@@ -24,8 +27,16 @@
 // Pin definitions anemometer
 # define windPin 2 // Receive the data from sensor
 
-#define dataPin  29
-#define clockPin 30
+#define dataPin  30
+#define clockPin 29
+
+float air_temperature,air_humidity,air_pressure,rain_gauge,wind_speed,soil_temp,soil_moist,soil_ph,soil_EC;
+unsigned int wind_direction;
+double gpslat,gpslon;
+String body;
+WiFiUDP udp;
+NTPClient ntpClient(udp, "id.pool.ntp.org", ((22*60*60)+(0*60))); // IST = GMT + 7:00
+
 
 // Constants definitions
 const float pi = 3.14159265; // pi number
@@ -115,7 +126,8 @@ void setup()
 //   MS5611.begin(MS5611_ULTRA_HIGH_RES);
   // MS5611.getOversampling();
   vcs.init(0x63);
-
+  Wire.begin();
+  MS5611.begin();
   gpsPort.begin(9600);
 }
 
@@ -152,22 +164,23 @@ tempEcSoil();
 suhu = read_temp();
 kelembaban = read_hum();
 
-
-Serial.print(arah);
-Serial.print('\t');
-Serial.print(phTanah);
-Serial.print('\t');
-Serial.print(windSpeed);
-Serial.print('\t');
-Serial.print(pressure);
-Serial.print('\t');
-Serial.print(ecTanah);
-Serial.print('\t');
-Serial.print(dat[1]);
-Serial.print('\t');
-Serial.print(dat[2]);
-Serial.print('\t');
-Serial.print(suhu);
-Serial.print('\t');
-Serial.println(kelembaban);
+body = bodyJSON(suhu,kelembaban,pressure,rain_gauge,windSpeed,arah,dat[2],dat[0],phTanah,dat[1],gpslat,gpslon);
+//Serial.print(arah);
+//Serial.print('\t');
+//Serial.print(phTanah);
+//Serial.print('\t');
+//Serial.print(windSpeed);
+//Serial.print('\t');
+//Serial.print(pressure);
+//Serial.print('\t');
+//Serial.print(ecTanah);
+//Serial.print('\t');
+//Serial.print(dat[1]);//ec tanah
+//Serial.print('\t');
+//Serial.print(dat[2]);//temp tanah
+//Serial.print('\t');
+//Serial.print(suhu);
+//Serial.print('\t');
+//Serial.println(kelembaban);
+Serial.println(body);
 }

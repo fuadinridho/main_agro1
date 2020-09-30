@@ -90,13 +90,13 @@ float bacaTanah(){
 double read_baro()
 {
   double realPressure2;
-  realPressure2 = MS5611.getPressure() * 0.01;
-  return realPressure2;
+  //realPressure2 = MS5611.getPressure() * 0.01;
+  //return realPressure2;
   
-//  float realTemperature2 = MS5611.getTemperature(true);
-//  long realPressure2 = MS5611.getPressure(true);
-//  double realAltitude2 = MS5611.getAltitude(realPressure2);
-//  return realPressure2/101325.0;
+  //float realTemperature2 = ms5611.getTemperature(true);
+  realPressure2 = MS5611.getPressure();
+  //double realAltitude2 = ms5611.getAltitude(realPressure2);
+  return realPressure2/101325.0;
 }
 
 void tempEcSoil(){
